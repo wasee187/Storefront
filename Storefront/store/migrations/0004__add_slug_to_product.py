@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('store', '0003_rename_rename_product_price_to_unict_price'),
+        ('store', '0003_rename_rename_product_price_to_unit_price'),
     ]
 
     operations = [
