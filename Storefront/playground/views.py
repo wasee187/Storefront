@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, F
-from store.models import Product
+from store.models import Product, OrderItem
 
 def say_hello(request):
     # pylint: disable=no-member
@@ -32,5 +32,17 @@ def say_hello(request):
     #queryset = Product.objects.earliest('unit_price','-title')
     #queryset = Product.objects.latest('unit_price','-title')
     #queryset = Product.objects.all()[:5]
-    queryset = Product.objects.all()[5:10]
+    #queryset = Product.objects.all()[5:10]
+
+    #queryset = Product.objects.values('id', 'title')
+    #queryset = Product.objects.values('id', 'title', 'collection__title') #inner join
+
+    #queryset = Product.objects.values('id', 'title', 'orderitem__id').order_by('title')
+
+    #Exercise: Select products that have been ordered and sort them by title.
+    #my solution
+    #queryset = OrderItem.objects.values('product_id', 'product__id', 'product__title').distinct().order_by('product__title')
+    #instructor solution 
+    queryset = Product.objects.filter(
+        id__in = OrderItem.objects.values('product_id').distinct()).order_by('title')
     return render(request, 'hello.html', {'name': 'Wasee', 'products':list(queryset)})
