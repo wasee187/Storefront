@@ -11,6 +11,11 @@
     {%else%}
     <h1>Hello World</h1>
     {%endif%}
+    <ul>
+        {%for product in products%}
+        <li>{{product.title}}</li>
+        {% endfor %}
+    </ul>
     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Numquam inventore mollitia enim dolore. Veritatis, dolorem deserunt sint iusto odio molestias a soluta explicabo aperiam aliquam, laudantium minus molestiae quia asperiores!</p>
 </body>
 </html>
