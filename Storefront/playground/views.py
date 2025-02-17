@@ -22,5 +22,13 @@ def say_hello(request):
     #queryset = Product.objects.filter(Q(inventory__lt =10) | Q(unit_price__lt =20))
     #queryset = Product.objects.filter(Q(inventory__lt =10) & ~Q(unit_price__lt =20))
     #queryset = Product.objects.filter(inventory=F('unit_price'))
-    queryset = Product.objects.filter(inventory=F('collection__id'))
+    #queryset = Product.objects.filter(inventory=F('collection__id'))
+
+    #queryset = Product.objects.order_by('title')
+    #queryset = Product.objects.order_by('-title')
+    #queryset = Product.objects.order_by('unit_price','-title')
+    #queryset = Product.objects.order_by('unit_price','-title').reverse()
+    #queryset = Product.objects.order_by('unit_price','-title')[0]
+    #queryset = Product.objects.earliest('unit_price','-title')
+    queryset = Product.objects.latest('unit_price','-title')
     return render(request, 'hello.html', {'name': 'Wasee', 'products':list(queryset)})
