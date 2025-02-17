@@ -43,6 +43,8 @@ def say_hello(request):
     #my solution
     #queryset = OrderItem.objects.values('product_id', 'product__id', 'product__title').distinct().order_by('product__title')
     #instructor solution 
-    queryset = Product.objects.filter(
-        id__in = OrderItem.objects.values('product_id').distinct()).order_by('title')
+    #queryset = Product.objects.filter(id__in = OrderItem.objects.values('product_id').distinct()).order_by('title')
+    
+    queryset = Product.objects.only('id', 'title')
+    queryset = Product.objects.defer('description')
     return render(request, 'hello.html', {'name': 'Wasee', 'products':list(queryset)})
