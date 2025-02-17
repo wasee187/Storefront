@@ -30,5 +30,7 @@ def say_hello(request):
     #queryset = Product.objects.order_by('unit_price','-title').reverse()
     #queryset = Product.objects.order_by('unit_price','-title')[0]
     #queryset = Product.objects.earliest('unit_price','-title')
-    queryset = Product.objects.latest('unit_price','-title')
+    #queryset = Product.objects.latest('unit_price','-title')
+    #queryset = Product.objects.all()[:5]
+    queryset = Product.objects.all()[5:10]
     return render(request, 'hello.html', {'name': 'Wasee', 'products':list(queryset)})
