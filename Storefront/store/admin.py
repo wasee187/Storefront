@@ -7,9 +7,15 @@ from . import models
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['title', 'unit_price']
+    list_display = ['title', 'unit_price', 'inventory_status']
     list_editable = ['unit_price']
     list_per_page = 10
+
+    @admin.display(ordering='inventory')
+    def inventory_status(self, prodcut):
+        if prodcut.inventory < 10 :
+            return 'Low'
+        return 'Ok'
 
 @admin.register(models.Collection)
 class CollectonAdmin(admin.ModelAdmin):
