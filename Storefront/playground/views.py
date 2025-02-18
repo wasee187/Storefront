@@ -1,12 +1,13 @@
 from django.shortcuts import render
-from django.db.models import Value, F, Func, Count, ExpressionWrapper, DecimalField
-from django.db.models.functions import Concat
-from store.models import Product, Order, Customer
+from django.contrib.contenttypes.models import ContentType
+from store.models import Product
+from tags.models import TaggedItem
 
 def say_hello(request):
     # pylint: disable=no-member 
-    discounted_price = ExpressionWrapper(F('unit_price') * 0.8 , output_field= DecimalField())
-    queryset = Product.objects.annotate(
-        discounted_price= discounted_price
+    content_type = ContentType.objects.get_for_model(Product)
+    queryset = TaggedItem.objects.select_related('tag').filter(
+        content_type= content_type,
+        object_id = 1 
     )
     return render(request, 'hello.html', {'name': 'Wasee', 'result':list(queryset)})
