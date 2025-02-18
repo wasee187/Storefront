@@ -12,10 +12,10 @@ class Collection(models.Model):
         'Product', on_delete=models.SET_NULL, null=True, related_name='+')
     
     # pylint: disable=invalid-str-returned
-    def __str__(self) -> str:
-        return self.title
-    class Meta:
-        ordering = ['title']
+    #def __str__(self) -> str:
+       # return self.title
+    #class Meta:
+       # ordering = ['title']
 
 
 class Product(models.Model):
@@ -52,6 +52,8 @@ class Customer(models.Model):
     birth_date = models.DateField(null=True)
     membership = models.CharField(
         max_length=1, choices=MEMBERSHIP_CHOICES, default=MEMBERSHIP_BRONZE)
+
+
 
 
 class Order(models.Model):
