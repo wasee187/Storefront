@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from django.db.models.aggregates import Count, Max, Min, Avg, Sum
-from store.models import Product, Order
+from django.db.models import Value, F
+from store.models import Product, Order, Customer
 
 def say_hello(request):
     # pylint: disable=no-member
-    result = Product.objects.filter('collection__id =1').aggregate(count=Count('id'), min_price = Min('unit_price'))
-    return render(request, 'hello.html', {'name': 'Wasee', 'result':result})
+    queryset = Customer.objects.annotate(new_id=F('id') +1 )
+    return render(request, 'hello.html', {'name': 'Wasee', 'result':list(queryset)})
