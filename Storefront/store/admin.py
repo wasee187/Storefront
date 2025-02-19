@@ -1,9 +1,10 @@
 
 from django.contrib import admin
+from django.db.models import Count
 from . import models
 
 
-# Register your models here.
+# Registering Product models from store app 
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -21,6 +22,9 @@ class ProductAdmin(admin.ModelAdmin):
             return 'Low'
         return 'Ok' 
 
+
+# Registering Order models from store app 
+
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['id','placed_at', 'customer']
@@ -28,15 +32,25 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 
-
-
+# Registering Collection models from store app 
 
 @admin.register(models.Collection)
-class CollectonAdmin(admin.ModelAdmin):
-    list_display = ['title']
+class CollectionAdmin(admin.ModelAdmin):
+    list_display = ['title', 'products_count']
     list_per_page = 10
 
-#admin.site.register(models.Collection)
+    @admin.display(ordering ='products_count')
+    def products_count(self, collection):
+        return collection.products_count
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(
+            products_count = Count('product')
+        )
+
+
+
+
+# Registering Customer models from store app 
 
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
