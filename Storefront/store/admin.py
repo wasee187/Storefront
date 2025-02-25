@@ -29,6 +29,7 @@ class ProductAdmin(admin.ModelAdmin):
         'slug' : ['title']
     }
     actions = ['clear_inventory']
+    search_fields = ['title']
     list_display = ['title', 'unit_price', 'inventory_status', 'collection_title']
     list_editable = ['unit_price']
     list_filter = ['collection', 'last_update', InventoryFilter]
@@ -50,14 +51,22 @@ class ProductAdmin(admin.ModelAdmin):
         self.message_user(
             request,
             f'{updated_count} products were successfully updated.' 
+
         )
 # Registering Order models from store app 
+class OrderItemInline(admin.TabularInline):
+    autocomplete_fields = ['product']
+    model = models.OrderItem
+    extra = 0
+    min_num = 1
+    max_num = 10
 
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['customer']
+    inlines = [OrderItemInline]
     list_display = ['id','placed_at', 'customer']
     list_per_page = 10
-    autocomplete_fields = ['customer']
 
 
 # Registering Collection models from store app 
